@@ -1,17 +1,7 @@
-import HomePage from "./pages/HomePage";
-import PGSection from "./components/PGSection";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  return (
-    <>
-      <Navbar />
-      <HomePage />
-      <PGSection />
-      <Footer />
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
