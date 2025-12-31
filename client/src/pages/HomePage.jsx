@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Search, MapPin, Home, ShieldCheck } from "lucide-react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 
 
 export default function HomePage() {
@@ -8,8 +8,6 @@ export default function HomePage() {
     
   return (
     <>
-   <Navbar/>
-   
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 pt-24 grid md:grid-cols-2 gap-10 items-center">
