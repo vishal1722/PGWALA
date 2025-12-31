@@ -1,129 +1,90 @@
-import React from "react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
+const navItems = [
+  { name: "Home", role: "general" },
+  { name: "For Students", role: "student" },
+  { name: "For Owners", role: "owner" },
+  { name: "Contact", role: "general" },
+];
 
-const Navbar = () => {
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("Home");
+
   return (
-    <div className="header-sticky bg-dark px-0">
-      <div className="row gx-0">
-        {/* Left Logo (Desktop) */}
-        <div className="col-lg-3 bg-dark d-none d-lg-block">
-          <a
-            href="/"
-            className="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center"
-          >
-            <img
-              src="/icon.png"
-              width="100"
-              alt="PG Wala"
-            />
-          </a>
+    <motion.nav
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur shadow-sm z-50"
+    >
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <div className="text-xl font-bold text-blue-600 cursor-pointer">
+          PG Finder
         </div>
 
-        {/* Right Section */}
-        <div className="col-lg-9">
-          {/* Top Contact Bar */}
-          <div className="row gx-0 bg-white d-none d-lg-flex">
-            <div className="col-lg-7 px-5 text-start">
-              <div className="h-100 d-inline-flex align-items-center py-2 me-4">
-                <i className="fa fa-envelope text-primary me-2"></i>
-                <p className="mb-0">info@pgwala.com</p>
-              </div>
-              <div className="h-100 d-inline-flex align-items-center py-2">
-                <i className="fa fa-phone text-primary me-2"></i>
-                <p className="mb-0">+91 9322271889</p>
-              </div>
-            </div>
-
-            <div className="col-lg-5 px-5 text-end">
-              <div className="d-inline-flex align-items-center py-2">
-                <a
-                  className="me-3"
-                  href="https://www.facebook.com/people/PG-Wala"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <i className="fab fa-facebook-f"></i>
-                </a>
-                <a
-                  className="me-3"
-                  href="https://www.instagram.com/pgwala/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <i className="fab fa-instagram"></i>
-                </a>
-                <a
-                  className="me-3"
-                  href="https://youtube.com/@pgwala"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <i className="fab fa-youtube"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Navbar */}
-          <nav className="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-            {/* Mobile Logo */}
-            <a href="/" className="navbar-brand d-block d-lg-none">
-              <img
-                src="/icon.png"
-                width="80"
-                alt="PG Walaah"
-              />
-            </a>
-
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-10">
+          {navItems.map((item) => (
             <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarCollapse"
+              key={item.name}
+              onClick={() => setActive(item.name)}
+              className="relative text-gray-700 font-medium"
             >
-              <span className="navbar-toggler-icon"></span>
+              {item.name}
+              {active === item.name && (
+                <motion.span
+                  layoutId="underline"
+                  className="absolute left-0 -bottom-1 h-[2px] w-full bg-blue-600"
+                />
+              )}
             </button>
+          ))}
 
-            <div
-              className="collapse navbar-collapse justify-content-between"
-              id="navbarCollapse"
-            >
-              <div className="navbar-nav me-auto py-0">
-                <a href="#home" className="nav-item nav-link active">
-                  Home
-                </a>
-                <a href="#locations" className="nav-item nav-link">
-                  Locations
-                </a>
-                <a href="#amenities" className="nav-item nav-link">
-                  Amenities
-                </a>
-                <a href="#rooms" className="nav-item nav-link">
-                  Rooms & Pricing
-                </a>
-                <a href="#about" className="nav-item nav-link">
-                  About Us
-                </a>
-                <a href="#contact" className="nav-item nav-link">
-                  Contact Us
-                </a>
-              </div>
-
-              <a
-                href="https://wa.me/9322271889/?text=Hii%20I%20am%20interested%20?"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block"
-              >
-                GET FREE QUOTE
-                <i className="fa fa-arrow-right ms-3"></i>
-              </a>
-            </div>
-          </nav>
+          <button className="ml-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Login
+          </button>
         </div>
-      </div>
-    </div>
-  );
-};
 
-export default Navbar;
+        {/* Mobile Button */}
+        <button onClick={() => setOpen(!open)} className="md:hidden">
+          {open ? <X /> : <Menu />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {open && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          className="md:hidden bg-white px-6 pb-4"
+        >
+          <div className="flex flex-col gap-4 mt-4">
+            {navItems.map((item) => (
+              <button
+                key={item.name}
+                onClick={() => {
+                  setActive(item.name);
+                  setOpen(false);
+                }}
+                className={`text-left ${
+                  active === item.name
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700"
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+
+            <button className="mt-2 bg-blue-600 text-white py-2 rounded-lg">
+              Login
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </motion.nav>
+  );
+}
